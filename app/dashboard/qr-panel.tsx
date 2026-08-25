@@ -28,7 +28,7 @@ export default function QrPanel({
     setUrl(full);
     QRCode.toDataURL(full, {
       width: 900, margin: 2, errorCorrectionLevel: 'M',
-      color: { dark: '#12302A', light: '#FFFFFF' },
+      color: { dark: '#000000', light: '#FFFFFF' },
     }).then(setPng).catch(() => setPng(''));
   }, [slug]);
 
