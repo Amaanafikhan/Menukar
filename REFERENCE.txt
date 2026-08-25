@@ -1,0 +1,137 @@
+MENUKAR — REFERENCE NOTES
+==========================
+Plain-text summary of how this project works and how we've been testing it.
+See PROJECT_MAP.md for the detailed file-by-file breakdown and error lookup
+table — this file is the shorter, plain-language version.
+
+
+WHAT THIS IS
+------------
+A QR-code digital menu app. Customers scan a code, see a live menu on their
+phone. Owners log in to a dashboard to edit their menu. A hotel can run
+several outlets (shops) under one login. There's also a platform-admin view
+for you to see every account on the platform.
+
+Built with: Next.js (the app/website code) + Supabase (the database, login
+system, and permissions, all hosted for free).
+
+
+HOW TO START THE APP LOCALLY
+-----------------------------
+1. Open a terminal in the project folder.
+2. Run: npm run dev
+3. Open http://localhost:3000 in a browser on THIS computer.
+4. To test on your PHONE: both devices must be on the same Wi-Fi, and you
+   must use this computer's local network IP instead of "localhost" —
+   e.g. http://192.168.31.94:3000 (this IP can change if your network
+   changes; re-check it with "ipconfig" in the terminal if the phone can't
+   connect).
+
+
+HOW SIGN-IN WORKS
+------------------
+- Email + password, on the /login page.
+- First time with a new email: click "Create account".
+- Already have an account: click "Sign in".
+- First-ever login after creating an account shows a "Name your restaurant"
+  setup screen — this only happens once. After that, signing in goes
+  straight to your real dashboard.
+- Multiple outlets (for hotels): once inside the dashboard, use
+  "+ Add another outlet" to add a second shop under the same login.
+
+
+DAY-TO-DAY MENU EDITING
+------------------------
+- Sign in -> dashboard -> edit categories/items/prices/sold-out directly.
+- No need to "start over" or recreate anything.
+- The QR code never needs to be reprinted when you edit the menu — it
+  points to a fixed web address that always shows the current menu live.
+
+
+WHERE THE DATABASE LIVES
+--------------------------
+- Supabase (a separate free hosted service, not on this computer).
+- The database structure/rules live in the file: supabase/schema.sql
+- Whenever that file changes, the WHOLE file gets pasted into Supabase's
+  SQL Editor and run again — it's safe to re-run any time, it won't
+  duplicate or break anything.
+- Supabase's free tier pauses a project after about 7 days of no use —
+  not a trial, doesn't expire, just needs "Restore" clicked in the
+  Supabase dashboard if it's been idle a while. No data is lost when paused.
+
+
+SECURITY RULES WE'VE BEEN FOLLOWING
+--------------------------------------
+- NEVER paste API keys, passwords, or database keys into a chat with any
+  AI assistant, including this one. Once typed into a chat, treat it as
+  compromised — revoke and regenerate it.
+- The Supabase "anon" / "publishable" key is safe to use inside the app's
+  code (.env.local) — it's designed to be public-facing.
+- The Supabase "service_role" key must NEVER be used anywhere in this app.
+  This app relies on row-level security rules instead, which is safer.
+- .env.local (where the real keys live) is never committed to code/git —
+  it's in .gitignore on purpose.
+
+
+COMMON PROBLEMS AND WHAT THEY MEAN
+-------------------------------------
+"email rate limit exceeded"
+  -> Supabase's free shared email sender only allows a couple of emails
+     per hour. Either wait about an hour, or set up custom SMTP (e.g. via
+     Resend) in Supabase dashboard -> Authentication -> SMTP Settings.
+     This app also has a password-based login now specifically to avoid
+     depending on email during testing.
+
+"Invalid login credentials"
+  -> Either the password is wrong, or that account was created before
+     password login existed (back when it used magic-link email only).
+     Fix: reset the password for that user in Supabase dashboard ->
+     Authentication -> Users, or just use a different test account.
+
+"The site can't be reached" (on phone, after scanning QR)
+  -> The QR code was generated using "localhost", which only makes sense
+     on the same computer. Fix: set NEXT_PUBLIC_SITE_URL in .env.local to
+     this computer's real network IP (e.g. http://192.168.31.94:3000),
+     restart the dev server, and regenerate the QR code.
+
+Setup screen ("Name your restaurant") keeps appearing even though an
+account was already created
+  -> This was a real bug we hit and fixed: a database permission rule
+     referenced its own table in a way Postgres couldn't resolve
+     ("infinite recursion detected in policy"). Already fixed in
+     supabase/schema.sql. If it ever reappears, that's the first place
+     to check.
+
+New outlet doesn't have "Breakfast / Main course / Beverages" categories
+  -> Expected, not a bug. Only the FIRST outlet gets those three starter
+     categories automatically. Additional outlets start with one blank
+     "Menu" category, since a second outlet may not need breakfast/lunch
+     categories at all. Add categories manually from the dashboard.
+
+Button stuck on "Creating..." forever
+  -> Was a real bug (the button never got re-enabled after a successful
+     save). Already fixed. If it recurs, check the terminal running
+     "npm run dev" for a red error message — that will show what actually
+     happened.
+
+
+DEPLOYING THIS FOR REAL (NOT YET DONE)
+-----------------------------------------
+- The website part would go on Vercel (free, made by the same team as
+  Next.js, connects to a GitHub repo).
+- The database part (Supabase) is already live on the internet, no
+  extra deployment needed there.
+- This project isn't in a GitHub repo yet — that would need to happen
+  before deploying to Vercel.
+- Before going live for real customers, custom SMTP (real email sending)
+  and a proper domain name would be worth setting up.
+
+
+WHERE TO GET HELP FAST
+-------------------------
+If something breaks, check PROJECT_MAP.md first — it has a table mapping
+specific error messages to the exact file that's usually responsible, plus
+a one-line description of every file and folder in the project. Hand both
+this file and PROJECT_MAP.md to any AI assistant (Claude Code, ChatGPT,
+etc.) so it can get up to speed immediately without needing the whole
+story repeated.

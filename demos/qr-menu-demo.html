@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malleswaram Tiffin Room — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12302A;
+    --ink-soft:#2C4C44;
+    --paper:#F3F0E6;
+    --paper-deep:#E7E2D2;
+    --turmeric:#E4A11B;
+    --chilli:#9E2B1B;
+    --line:rgba(18,48,42,.14);
+    --display:'Bebas Neue',Impact,sans-serif;
+    --body:'DM Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--body);
+    background:#0C1F1B;
+    color:var(--ink);
+    display:flex;flex-direction:column;align-items:center;
+    padding:28px 16px 60px;
+    min-height:100vh;
+  }
+
+  /* ---------- desktop framing ---------- */
+  .stage-note{
+    color:#7FA097;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    margin-bottom:16px;text-align:center;font-weight:500;
+  }
+  .phone{
+    width:100%;max-width:390px;background:var(--paper);
+    border-radius:26px;overflow:hidden;position:relative;
+    box-shadow:0 30px 70px rgba(0,0,0,.55);
+  }
+
+  /* ---------- header ---------- */
+  .top{
+    background:var(--ink);color:var(--paper);
+    padding:22px 20px 18px;position:relative;overflow:hidden;
+  }
+  .top::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:5px;
+    background:repeating-linear-gradient(90deg,var(--turmeric) 0 14px,var(--chilli) 14px 28px);
+  }
+  .est{
+    font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--turmeric);font-weight:700;
+  }
+  .brand{
+    font-family:var(--display);font-size:38px;line-height:.92;
+    letter-spacing:.02em;margin:6px 0 8px;
+  }
+  .meta{font-size:12.5px;color:#A9C4BC;display:flex;gap:14px;flex-wrap:wrap}
+  .meta span{display:flex;align-items:center;gap:5px}
+  .dot-live{width:6px;height:6px;border-radius:50%;background:#5FD08A;box-shadow:0 0 0 3px rgba(95,208,138,.2)}
+
+  /* ---------- promo strip ---------- */
+  .promo{
+    background:var(--paper-deep);border-bottom:1px solid var(--line);
+    padding:10px 0 12px;
+  }
+  .promo-label{
+    font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-soft);padding:0 20px 8px;font-weight:700;opacity:.7;
+  }
+  .promo-rail{
+    display:flex;gap:10px;overflow-x:auto;padding:0 20px;
+    scroll-snap-type:x mandatory;scrollbar-width:none;
+  }
+  .promo-rail::-webkit-scrollbar{display:none}
+  .banner{
+    flex:0 0 78%;scroll-snap-align:start;border-radius:10px;
+    padding:14px 16px;color:#fff;position:relative;overflow:hidden;
+    min-height:78px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .banner.b1{background:linear-gradient(105deg,#9E2B1B,#C6503A)}
+  .banner.b2{background:linear-gradient(105deg,#12302A,#2C6152)}
+  .banner.b3{background:linear-gradient(105deg,#B37A08,#E4A11B)}
+  .banner h4{font-family:var(--display);font-size:21px;letter-spacing:.03em;font-weight:400}
+  .banner p{font-size:11.5px;opacity:.88;margin-top:3px;line-height:1.35}
+
+  /* ---------- category tabs ---------- */
+  .tabs{
+    display:flex;gap:6px;overflow-x:auto;padding:12px 20px;
+    background:var(--paper);position:sticky;top:0;z-index:20;
+    border-bottom:1px solid var(--line);scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto;font-family:var(--display);font-size:15px;letter-spacing:.06em;
+    padding:7px 13px 5px;border:1px solid var(--line);border-radius:3px;
+    background:transparent;color:var(--ink-soft);cursor:pointer;
+    transition:all .18s ease;white-space:nowrap;
+  }
+  .tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .tab:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
+
+  /* ---------- menu list ---------- */
+  .sheet{padding:4px 20px 30px}
+  .sec-head{
+    display:flex;align-items:baseline;gap:10px;
+    padding:22px 0 4px;
+  }
+  .sec-head h3{font-family:var(--display);font-size:24px;letter-spacing:.05em}
+  .sec-head i{flex:1;height:1px;background:var(--line);font-style:normal}
+  .sec-head em{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);opacity:.65;font-style:normal;font-weight:700}
+
+  .item{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:13px 0;border-bottom:1px dashed var(--line);
+  }
+  .item:last-child{border-bottom:0}
+  .mark{
+    width:13px;height:13px;border:1.6px solid;flex:0 0 13px;margin-top:3px;
+    display:grid;place-items:center;border-radius:2px;
+  }
+  .mark::after{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .mark.veg{color:#2F7A3D}
+  .mark.non{color:#9E2B1B}
+  .item-body{flex:1;min-width:0}
+  .item-name{font-size:15px;font-weight:500;letter-spacing:-.01em}
+  .item-desc{font-size:12.5px;color:var(--ink-soft);opacity:.75;margin-top:2px;line-height:1.4}
+  .price{font-family:var(--display);font-size:19px;letter-spacing:.04em;padding-top:1px}
+
+  .item.out{opacity:.42}
+  .item.out .item-name{text-decoration:line-through;text-decoration-thickness:1px}
+  .stamp{
+    display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--chilli);border:1.2px solid var(--chilli);
+    padding:1px 5px;border-radius:2px;margin-left:7px;transform:rotate(-3deg);
+    vertical-align:middle;
+  }
+
+  .foot{
+    text-align:center;padding:22px 20px 26px;background:var(--paper-deep);
+    border-top:1px solid var(--line);
+  }
+  .foot p{font-size:11px;color:var(--ink-soft);opacity:.7;line-height:1.6}
+  .foot strong{font-family:var(--display);font-size:13px;letter-spacing:.1em;opacity:1}
+
+  /* ---------- template switcher (demo control) ---------- */
+  .switcher{
+    margin-top:22px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+    justify-content:center;
+  }
+  .switcher span{color:#7FA097;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  .sw{
+    font-family:var(--body);font-size:12px;font-weight:500;
+    padding:7px 13px;border-radius:20px;cursor:pointer;
+    background:transparent;color:#A9C4BC;border:1px solid #2C4C44;transition:.18s;
+  }
+  .sw.on{background:var(--turmeric);color:#12302A;border-color:var(--turmeric)}
+  .sw:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
+
+  /* ---------- template B ---------- */
+  .phone.t-slate{--paper:#1A1A1C;--paper-deep:#232326;--ink:#F0EFEA;--ink-soft:#B6B4AC;
+    --line:rgba(240,239,234,.16);--turmeric:#F0B429;--chilli:#E8654A}
+  .phone.t-slate .top{background:#0F0F10}
+  .phone.t-slate .brand{color:#F0EFEA}
+  .phone.t-slate .tab[aria-selected="true"]{background:var(--turmeric);color:#1A1A1C;border-color:var(--turmeric)}
+  .phone.t-slate .mark.veg{color:#57C46E}
+  .phone.t-slate .mark.non{color:#E8654A}
+  .phone.t-slate .foot p{color:#B6B4AC}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<p class="stage-note">Scanned at table 7 · loads in under a second</p>
+
+<div class="phone" id="phone">
+  <header class="top">
+    <p class="est">Malleswaram · Since 1974</p>
+    <h1 class="brand">Malleswaram<br>Tiffin Room</h1>
+    <div class="meta">
+      <span><i class="dot-live"></i> Open till 10:30 PM</span>
+      <span>Pure veg &amp; non-veg</span>
+    </div>
+  </header>
+
+  <section class="promo" aria-label="Today at the restaurant">
+    <p class="promo-label">Today at MTR</p>
+    <div class="promo-rail">
+      <article class="banner b1">
+        <h4>Filter Coffee ₹20</h4>
+        <p>Before 11 AM, with any breakfast plate.</p>
+      </article>
+      <article class="banner b2">
+        <h4>Sunday Bisi Bele Bath</h4>
+        <p>Served 12–3 PM. Limited plates each week.</p>
+      </article>
+      <article class="banner b3">
+        <h4>Follow us @mtr_malleswaram</h4>
+        <p>Daily specials posted every morning.</p>
+      </article>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="Menu sections">
+    <button class="tab" role="tab" aria-selected="true">Breakfast</button>
+    <button class="tab" role="tab" aria-selected="false">Rice &amp; Meals</button>
+    <button class="tab" role="tab" aria-selected="false">Chats</button>
+    <button class="tab" role="tab" aria-selected="false">Beverages</button>
+    <button class="tab" role="tab" aria-selected="false">Sweets</button>
+  </nav>
+
+  <main class="sheet">
+    <div class="sec-head"><h3>Breakfast</h3><i></i><em>7 – 11:30 AM</em></div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Masala Dosa</p>
+        <p class="item-desc">Crisp, ghee-roasted, potato palya, chutney &amp; sambar</p>
+      </div>
+      <p class="price">₹90</p>
+    </div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Rava Idli <span class="stamp">Sold out</span></p>
+        <p class="item-desc">Two pieces, steamed to order</p>
+      </div>
+      <p class="price">₹70</p>
+    </div>
+
+    <div class="item out">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Khara Bath</p>
+        <p class="item-desc">Semolina, curry leaf, generous ghee</p>
+      </div>
+      <p class="price">₹65</p>
+    </div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Set Dosa</p>
+        <p class="item-desc">Three soft dosas, vegetable saagu</p>
+      </div>
+      <p class="price">₹85</p>
+    </div>
+
+    <div class="sec-head"><h3>Rice &amp; Meals</h3><i></i><em>12 PM onwards</em></div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Bisi Bele Bath</p>
+        <p class="item-desc">With boondi, kara sev and a spoon of ghee</p>
+      </div>
+      <p class="price">₹120</p>
+    </div>
+
+    <div class="item">
+      <span class="mark non" aria-label="Non-vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Donne Biryani</p>
+        <p class="item-desc">Short-grain rice, country chicken, served in leaf cup</p>
+      </div>
+      <p class="price">₹210</p>
+    </div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">South Indian Thali</p>
+        <p class="item-desc">Rice, two palya, sambar, rasam, curd, sweet</p>
+      </div>
+      <p class="price">₹180</p>
+    </div>
+
+    <div class="sec-head"><h3>Beverages</h3><i></i><em>All day</em></div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Filter Coffee</p>
+        <p class="item-desc">Steel tumbler, the way it should be</p>
+      </div>
+      <p class="price">₹30</p>
+    </div>
+
+    <div class="item">
+      <span class="mark veg" aria-label="Vegetarian"></span>
+      <div class="item-body">
+        <p class="item-name">Badam Milk</p>
+        <p class="item-desc">Served hot or cold</p>
+      </div>
+      <p class="price">₹55</p>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p><strong>Prices include taxes</strong><br>Menu updated today at 7:40 AM</p>
+  </footer>
+</div>
+
+<div class="switcher">
+  <span>Template</span>
+  <button class="sw on" data-t="">Tiffin Room</button>
+  <button class="sw" data-t="t-slate">Slate</button>
+</div>
+
+<script>
+  const phone = document.getElementById('phone');
+  document.querySelectorAll('.sw').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      phone.className = 'phone' + (b.dataset.t ? ' ' + b.dataset.t : '');
+    });
+  });
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected','false'));
+      t.setAttribute('aria-selected','true');
+    });
+  });
+</script>
+</body>
+</html>
